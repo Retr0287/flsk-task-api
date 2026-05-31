@@ -4,19 +4,21 @@ A backend REST API built with Flask and MySQL.
 
 This project was created as a learning backend application focused on authentication, JWT authorization, CRUD operations, and project structure organization.
 
-## Features
-
-- User registration
-- User login
-- JWT authentication
-- Protected routes
-- Task CRUD operations
-- Password hashing with bcrypt
-- MySQL database integration
-- Flask Blueprints
-- Custom decorators
-- Validators/helpers
-- Modular backend structure
+## Features 
+- User registration with password hashing (bcrypt) 
+- User authentication with JWT tokens 
+- Protected routes using custom login_required decorator 
+- Create tasks 
+- View user tasks 
+- Update tasks 
+- Delete tasks 
+- Request validation and input cleaning 
+- Service layer architecture 
+- Custom API exceptions 
+- Centralized error handling 
+- Application logging 
+- MySQL database integration 
+- Environment variables support (.env)
 
 ---
 
@@ -31,27 +33,85 @@ This project was created as a learning backend application focused on authentica
 
 ---
 
-# Project Structure
+## Project Architecture
 
-```bash
-task_api/
-│
-├── routes/
-│   ├── auth_routes.py
-│   └── task_routes.py
-│
-├── decorators/
-│   └── auth_decorator.py
-│
-├── utils/
-│   └── validators.py
-│
-├── auth.py
-├── db.py
-├── app.py
-├── requirements.txt
-└── .env
-```
+The project follows a layered architecture approach:
+
+### Routes Layer
+Handles HTTP requests and responses.
+
+Responsibilities:
+- Receive requests
+- Validate input
+- Call service functions
+- Return JSON responses
+
+Files:
+- routes/auth_routes.py
+- routes/task_routes.py
+
+### Service Layer
+Contains business logic and database operations.
+
+Responsibilities:
+- Create tasks
+- Update tasks
+- Delete tasks
+- Fetch tasks
+- Check task ownership
+
+Files:
+- services/task_service.py
+
+### Validation Layer
+Contains reusable validation functions.
+
+Responsibilities:
+- Validate task data
+- Clean request input
+- Prevent invalid data from reaching business logic
+
+Files:
+- utils/validators.py
+
+### Authentication Layer
+Handles JWT authentication.
+
+Responsibilities:
+- Verify tokens
+- Extract user_id from JWT
+- Protect private routes
+
+Files:
+- auth.py
+
+### Exception Layer
+Contains custom exceptions and centralized error handling.
+
+Responsibilities:
+- Raise meaningful API errors
+- Handle errors consistently
+
+Files:
+- exceptions/api_exceptions.py
+
+### Database Layer
+Provides database connection and cursor management.
+
+Files:
+- db.py
+
+### Configuration Layer
+Stores application settings and environment variables.
+
+Files:
+- config.py
+
+### Logging Layer
+Handles application logging.
+
+Files:
+- utils/logger.py
 
 ---
 

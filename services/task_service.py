@@ -27,7 +27,7 @@ def create_task(title, user_id):
     return True
 
 def get_user_tasks(user_id):
-    cursor.execute("SELECT * FROM task WHERE users_id=%s", (user_id))
+    cursor.execute("SELECT * FROM task WHERE users_id=%s ORDER BY created_at DESC", (user_id))
     return cursor.fetchall()
 
 def delete_user_task(task_id, user_id):

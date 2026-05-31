@@ -1,11 +1,9 @@
 import jwt
-import os
 import bcrypt
 from flask import Blueprint, request, jsonify
-from dotenv import load_dotenv
+from config import Config
 from db import cursor, users_db
-load_dotenv()
-SECRET_KEY = os.getenv("SECRET_KEY")
+from utils.logger import logger
 auth_bp = Blueprint("auth", __name__)
 # REGISTER
 @auth_bp.route("/register", methods=["POST"])
@@ -25,6 +23,7 @@ def add_user():
         (data["username"], hashed_password)
     )
     users_db.commit()
+    logger.info(f"User {data['username']} registered")
     return jsonify({"message": "user created"}), 201
 
 
@@ -52,9 +51,10 @@ def search_user():
     payload = {
         "user_id": user["id"]
     }
+    logger.info(f"User {data['username']} logged in")
     token = jwt.encode(
         payload,
-        SECRET_KEY,
+        Config.SECRET_KEY,
         algorithm="HS256"
     )
     return jsonify({"token": token}), 200

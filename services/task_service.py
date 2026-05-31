@@ -2,6 +2,7 @@ from flask import request
 from db import cursor, users_db
 from exceptions.api_exeptions import ForbiddenError,NotFoundError,ValidationError
 from utils.validators import validate_task
+from utils.logger import logger
 #helper functions
 def get_task_by_id(task_id):
     cursor.execute("SELECT * FROM task WHERE id=%s", (task_id,))
@@ -20,13 +21,13 @@ def create_task(title, user_id):
         users_db.commit()
 
     except Exception as e:
-        print(e)
+        logger.error(str(e))
         return False
     
     return True
 
 def get_user_tasks(user_id):
-    cursor.execute("SELECT * FROM task WHERE users_id=%s", (user_id))
+    cursor.execute("SELECT * FROM task WHERE users_id=%s ORDER BY created_at DESC", (user_id))
     return cursor.fetchall()
 
 def delete_user_task(task_id, user_id):

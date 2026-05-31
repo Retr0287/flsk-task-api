@@ -1,9 +1,6 @@
 import jwt
-import os
 from flask import request, jsonify
-from dotenv import load_dotenv
-load_dotenv()
-SECRET_KEY=os.getenv("SECRET_KEY")
+from config import Config
 def get_user_id():
     auth=request.headers.get("Authorization")
     if not auth:
@@ -14,7 +11,7 @@ def get_user_id():
     token=auth.split(None, 1)[1]
     
     try:
-        data=jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        data=jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
     except:
         return jsonify({"error": "invalid token"}), 401
     

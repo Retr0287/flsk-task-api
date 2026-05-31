@@ -7,6 +7,7 @@ from exceptions.api_exeptions import(
     ForbiddenError,
     ValidationError
 )
+from config import Config
 app=Flask(__name__)
 @app.errorhandler(NotFoundError)
 def handle_not_found(error):
@@ -20,6 +21,6 @@ def handle_validation(error):
 register_error_handlers(app)
 app.register_blueprint(auth_bp)
 app.register_blueprint(task_bp)
-        
+app.config.from_object(Config)        
 if __name__ == "__main__": 
     app.run(debug=True)

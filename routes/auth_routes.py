@@ -1,5 +1,4 @@
 import jwt
-import os
 import bcrypt
 from flask import Blueprint, request, jsonify
 from config import Config

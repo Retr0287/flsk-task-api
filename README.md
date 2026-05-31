@@ -1,35 +1,117 @@
-# Flask Tasks API
+# Flask Task API
 
-Backend REST API built with Flask, MySQL and JWT authentication.
+A backend REST API built with Flask and MySQL.
 
-This project was created as backend development practice and includes authentication, protected routes, CRUD operations and database interaction.
+This project was created as a learning backend application focused on authentication, JWT authorization, CRUD operations, and project structure organization.
+
+## Features 
+- User registration with password hashing (bcrypt) 
+- User authentication with JWT tokens 
+- Protected routes using custom login_required decorator 
+- Create tasks 
+- View user tasks 
+- Update tasks 
+- Delete tasks 
+- Request validation and input cleaning 
+- Service layer architecture 
+- Custom API exceptions 
+- Centralized error handling 
+- Application logging 
+- MySQL database integration 
+- Environment variables support (.env)
 
 ---
 
-# Features
-
-- User registration
-- User login
-- JWT token authentication
-- Protected routes using Authorization header
-- Create tasks for authorized users
-- Get tasks only for current user
-- Update tasks
-- Delete tasks
-- Access control for task ownership
-- MySQL database integration
-- Environment variables support with .env
-
----
-
-# Technologies Used
+# Technologies
 
 - Python
 - Flask
 - MySQL
-- mysql.connector
-- PyJWT
-- python-dotenv
+- JWT (PyJWT)
+- bcrypt
+- dotenv
+
+---
+
+## Project Architecture
+
+The project follows a layered architecture approach:
+
+### Routes Layer
+Handles HTTP requests and responses.
+
+Responsibilities:
+- Receive requests
+- Validate input
+- Call service functions
+- Return JSON responses
+
+Files:
+- routes/auth_routes.py
+- routes/task_routes.py
+
+### Service Layer
+Contains business logic and database operations.
+
+Responsibilities:
+- Create tasks
+- Update tasks
+- Delete tasks
+- Fetch tasks
+- Check task ownership
+
+Files:
+- services/task_service.py
+
+### Validation Layer
+Contains reusable validation functions.
+
+Responsibilities:
+- Validate task data
+- Clean request input
+- Prevent invalid data from reaching business logic
+
+Files:
+- utils/validators.py
+
+### Authentication Layer
+Handles JWT authentication.
+
+Responsibilities:
+- Verify tokens
+- Extract user_id from JWT
+- Protect private routes
+
+Files:
+- auth.py
+
+### Exception Layer
+Contains custom exceptions and centralized error handling.
+
+Responsibilities:
+- Raise meaningful API errors
+- Handle errors consistently
+
+Files:
+- exceptions/api_exceptions.py
+
+### Database Layer
+Provides database connection and cursor management.
+
+Files:
+- db.py
+
+### Configuration Layer
+Stores application settings and environment variables.
+
+Files:
+- config.py
+
+### Logging Layer
+Handles application logging.
+
+Files:
+- utils/logger.py
 
 ---
 
@@ -37,59 +119,138 @@ This project was created as backend development practice and includes authentica
 
 ## Authentication
 
-### Register User
+### Register
+
+```http
 POST /register
+```
 
-### Login User
+Body:
+
+```json
+{
+  "username": "test",
+  "password": "123456"
+}
+```
+
+---
+
+### Login
+
+```http
 POST /login
+```
 
-Returns JWT token for authorized requests.
+Returns JWT token.
 
 ---
 
-## Tasks
+# Tasks
 
-### Create Task
+## Create Task
+
+```http
 POST /tasks
+```
 
-### Get User Tasks
+Headers:
+
+```http
+Authorization: YOUR_TOKEN
+```
+
+Body:
+
+```json
+{
+  "title": "Learn Flask"
+}
+```
+
+---
+
+## Get Tasks
+
+```http
 GET /tasks
+```
 
-### Update Task
+---
+
+## Update Task
+
+```http
 PATCH /tasks/<task_id>
+```
 
-Allows updating task title only for task owner.
+---
 
-### Delete Task
+## Delete Task
+
+```http
 DELETE /task/<task_id>
-
-Allows deleting tasks only for task owner.
-
----
-
-# Authorization
-
-Protected routes require JWT token in Authorization header:
-
-bash Authorization: Bearer your_token 
+```
 
 ---
 
-# Project Structure
+# Installation
 
-bash app.py              # Main Flask application requirements.txt    # Project dependencies README.md           # Documentation .env                # Environment variables 
+Clone repository:
+
+```bash
+git clone https://github.com/Retr0287/flask-task-api.git
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Create `.env` file:
+
+```env
+SECRET_KEY=your_secret_key
+```
+
+Configure MySQL database in `db.py`.
+
+Run server:
+
+```bash
+python app.py
+```
 
 ---
 
-# Learning Goals
+# Goals Of This Project
 
 This project was built to practice:
 
-- REST API development
-- Flask backend fundamentals
-- JWT authentication
-- CRUD operations
-- MySQL integration
-- Protected routes
-- User authorization logic
-- Git & GitHub workflow
+- Backend development fundamentals
+- REST API architecture
+- Authentication systems
+- Flask project organization
+- Database interaction
+- Writing cleaner and reusable code
+
+---
+
+# Future Improvements
+
+- Refresh tokens
+- SQLAlchemy migration
+- Docker support
+- Unit testing
+- Pagination
+- Task categories
+- User roles
+- Deployment
+
+---
+
+# Author
+
+GitHub:
+https://github.com/Retr0287

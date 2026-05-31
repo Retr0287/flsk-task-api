@@ -3,6 +3,7 @@ import bcrypt
 from flask import Blueprint, request, jsonify
 from config import Config
 from db import cursor, users_db
+from utils.logger import logger
 auth_bp = Blueprint("auth", __name__)
 # REGISTER
 @auth_bp.route("/register", methods=["POST"])
@@ -22,6 +23,7 @@ def add_user():
         (data["username"], hashed_password)
     )
     users_db.commit()
+    logger.info(f"User {data['username']} registered")
     return jsonify({"message": "user created"}), 201
 
 
@@ -49,6 +51,7 @@ def search_user():
     payload = {
         "user_id": user["id"]
     }
+    logger.info(f"User {data['username']} logged in")
     token = jwt.encode(
         payload,
         Config.SECRET_KEY,
